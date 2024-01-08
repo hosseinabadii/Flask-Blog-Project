@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Homepage{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+<article class="d-flex align-items-center mb-3 p-2 border rounded">
+  <div class="flex-grow-1 ms-3 me-3">
+    <div class="pb-2 mb-2 border-bottom">
+      <a class="badge bg-primary text-decoration-none me-2 text-white" href="{{ url_for('posts.user_posts', username=post.author.username) }}">{{ post.author.username
+        }}</a>
+      <small class="text-muted">{{ post.date_posted.strftime("%Y-%m-%d") }}</small>
+    </div>
+    <h2><a class="text-dark-emphasis text-decoration-none" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+    <p class="">{{ post.content }}</p>
+  </div>
+  <div class="flex-shrink-0 m-1">
+    <img class="article-img"
+      src="{{ url_for('static', filename='posts/thumbnails/' + post.image_file) }}">
+  </div>
+</article>
+{% endfor %}
+{% endblock content %}
