@@ -1,7 +1,7 @@
 import git
 from flask import Blueprint, render_template
 
-from . import services
+from . import csrf, services
 from .models import Post
 
 main = Blueprint("main", __name__, static_folder="static")
@@ -15,6 +15,7 @@ def index():
 
 
 @main.route("/git-update", methods=["POST"])
+@csrf.exempt
 def git_update():
     repo = git.Repo("./Flask-Blog-Project")
     origin = repo.remotes.origin
