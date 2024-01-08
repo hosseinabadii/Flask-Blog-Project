@@ -8,7 +8,7 @@ app = create_app()
 @app.route("/git-update", methods=["POST"])
 @csrf.exempt
 def git_update():
-    repo = Repo("./Flask-Blog-Project")
+    repo = Repo("~/Flask-Blog-Project")
     origin = repo.remotes.origin
 
     # Check out to the 'main' branch (assumed that 'main' is the branch name)
