@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
+from git import Repo
 
-from . import services
+from . import csrf, services
 from .models import Post
 
 main = Blueprint("main", __name__, static_folder="static")
@@ -13,13 +14,17 @@ def index():
     return render_template("index.html", posts=posts)
 
 
-# @main.route("/git-update", methods=["POST"])
-# @csrf.exempt
-# def git_update():
-#     repo = git.Repo("./Flask-Blog-Project")
-#     origin = repo.remotes.origin
-#     repo.create("main", origin.refs.main).set_tracking_branch(
-#         origin.refs.main
-#     ).checkout()
-#     origin.pull()
-#     return "", 200
+@main.route("/git-update", methods=["POST"])
+@csrf.exempt
+def git_update():
+    repo = Repo("~/Flask-Blog-Project")
+    origin = repo.remotes.origin
+
+    # Check out to the 'main' branch (assumed that 'main' is the branch name)
+    repo.heads.main.checkout()
+
+    # Pull the latest changes from the origin
+    origin.pull()
+
+    # Return a success response
+    return "", 200
